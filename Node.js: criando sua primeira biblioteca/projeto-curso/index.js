@@ -1,16 +1,37 @@
+import fs from 'fs';
 import chalk from 'chalk';
 
-console.log(chalk.blue('olá mundo!'));
+function trataErro(erro){
+   throw new Error(chalk.red(erro.code, 'Não há arquivo no diretório')) 
+}
 
-//encadear métodos para colorir texto, cor de fundo e texto em negrito
-console.log(chalk.blue.bgWhite.bold('Alura'));
-//receber múltiplos argumentos
-console.log(chalk.blue('curso', 'de', 'Node.js'));
-//métodos aninhados
-console.log(chalk.red('vermelho', chalk.underline.bgBlue('azul')));
-// uso de template strings e placeholders
-console.log(`
-CPU: ${chalk.red('90%')}
-RAM: ${chalk.green('40%')}
-DISK: ${chalk.yellow('70%')}
-`);
+// async/await
+
+async function pegaArquivo(caminhoDoArquivo){
+    try{
+        const encoding = 'utf-8';
+        const texto = 
+            await fs.promises.readFile(caminhoDoArquivo, encoding)
+        console.log(chalk.green(texto))
+    } catch(erro){
+        trataErro(erro)
+    } finally {
+        console.log(chalk.yellow('operação concluída'));
+      }
+
+
+}
+
+// promises com then()
+
+// function pegaArquivo(caminhoDoArquivo){
+//     const encoding = 'utf-8';
+//     fs.promises
+//         .readFile(caminhoDoArquivo, encoding)
+//         .then((texto)=> console.log(chalk.green(texto)))
+//         .catch((erro)=> trataErro(erro))
+//         //ou .catch(trataErro)
+// }
+
+pegaArquivo('./arquivos/texto.md')
+pegaArquivo('./arquivos/text.md')
