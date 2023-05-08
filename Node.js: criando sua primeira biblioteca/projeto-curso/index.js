@@ -1,6 +1,24 @@
 import fs from 'fs';
 import chalk from 'chalk';
 
+
+function extraiLinks(texto){
+    const regex = /\[([^\[\]]*?)\]\((https?:\/\/[^\s#.].[^\s]*)\)/gm; 
+
+// Alura:
+// \[([^\[\]]*?)\]\((https?:\/\/[^\s#.].[^\s]*)\)
+// GEPETO
+// \[([^\]]+)\]\((.*?)\) 
+
+    const capturas = [...texto.matchAll(regex)];
+
+    const resultados = capturas.map(captura=> ({[captura[1]]: captura[2]}))
+// engloba entre parenteses pra informar pro js que isto é um objeto. 
+//    console.log(resultados);
+    return resultados
+
+}
+
 function trataErro(erro){
    throw new Error(chalk.red(erro.code, 'Não há arquivo no diretório')) 
 }
@@ -10,9 +28,8 @@ function trataErro(erro){
 async function pegaArquivo(caminhoDoArquivo){
     try{
         const encoding = 'utf-8';
-        const texto = 
-            await fs.promises.readFile(caminhoDoArquivo, encoding)
-        console.log(chalk.green(texto))
+        const texto = await fs.promises.readFile(caminhoDoArquivo, encoding)
+        console.log(extraiLinks(texto))
     } catch(erro){
         trataErro(erro)
     } finally {
@@ -34,4 +51,3 @@ async function pegaArquivo(caminhoDoArquivo){
 // }
 
 pegaArquivo('./arquivos/texto.md')
-pegaArquivo('./arquivos/text.md')
