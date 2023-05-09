@@ -12,11 +12,11 @@ function extraiLinks(texto){
 
     const capturas = [...texto.matchAll(regex)];
 
-    const resultados = capturas.map(captura=> ({[captura[1]]: captura[2]}))
+    const resultados = 
+        capturas.map(captura=> ({[captura[1]]: captura[2]}));
 // engloba entre parenteses pra informar pro js que isto é um objeto. 
 //    console.log(resultados);
-    return resultados
-
+    return resultados.length !==0 ? resultados : 'não há links no arquivo';
 }
 
 function trataErro(erro){
@@ -29,14 +29,10 @@ async function pegaArquivo(caminhoDoArquivo){
     try{
         const encoding = 'utf-8';
         const texto = await fs.promises.readFile(caminhoDoArquivo, encoding)
-        console.log(extraiLinks(texto))
+        return extraiLinks(texto)
     } catch(erro){
         trataErro(erro)
-    } finally {
-        console.log(chalk.yellow('operação concluída'));
-      }
-
-
+    }
 }
 
 // promises com then()
@@ -50,4 +46,4 @@ async function pegaArquivo(caminhoDoArquivo){
 //         //ou .catch(trataErro)
 // }
 
-pegaArquivo('./arquivos/texto.md')
+export default pegaArquivo;
