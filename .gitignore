@@ -129,4 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 /Node.js: criando sua primeira biblioteca/O que aprendemos.md
+/Node.js: API Rest com Express e MongoDB/O que aprendemos.md
 
